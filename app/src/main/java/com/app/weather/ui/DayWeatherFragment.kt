@@ -50,7 +50,7 @@ class DayWeatherFragment : Fragment() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var model: SharedViewModel
     private lateinit var units: String
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
 
     var lat: Double = 0.0
     var long: Double = 0.0
@@ -59,31 +59,36 @@ class DayWeatherFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentDayWeatherBinding.inflate(inflater, container, false)
         val view = binding.root
+        setHasOptionsMenu(true)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayShowTitleEnabled(true)
         (activity as AppCompatActivity?)?.supportActionBar?.setLogo(R.drawable.ic_location)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayUseLogoEnabled(true)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayShowHomeEnabled(true)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(false)
         navController = Navigation.findNavController(requireActivity(), R.id.navFragment)
+
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         fusedLocationProviderClient =
             LocationServices.getFusedLocationProviderClient(requireActivity())
 
         //get location
         requestPermission()
         model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        units = getSettings(requireActivity()) ?: "metric"
-        setHasOptionsMenu(true)
-        return view
+        units = getSettings(requireActivity()) ?: getString(R.string.metric)
     }
 
     private fun loadWeatherData(weather: CityWeather?) {
         if (weather == null) {
             binding.mainContainer.visibility = View.GONE
-            Toast.makeText(context, "Error, not able to get data", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.error_getting_data), Toast.LENGTH_SHORT).show()
             Log.d(TAG, "Something went wrong, weather data is null")
         } else {
             //fill the data
@@ -100,16 +105,16 @@ class DayWeatherFragment : Fragment() {
                     .into(binding.imageStatus)
             }
 
-            binding.updatedAt.text = "Updated at: " + dateFormatDate(weather.current.dt)
+            binding.updatedAt.text = getString(R.string.updated_at) + dateFormatDate(weather.current.dt)
             binding.temp.text = weather.current.temp.roundToInt().toString()+"°"
             binding.status.text = weather.current.weather[0].description
-            binding.feelsLike.text = "Feels like: " + weather.current.feels_like.roundToInt().toString()+"°"
+            binding.feelsLike.text = getString(R.string.feels_like) + weather.current.feels_like.roundToInt().toString()+"°"
             binding.sunrise.text = dateFormatHour(weather.current.sunrise)
             binding.sunset.text = dateFormatHour(weather.current.sunset)
-            binding.uvi.text = weather.current.uvi.roundToInt().toString()
-            val windSpeedUnit = if(units=="metric") "km/h" else "mi/h"
+            binding.uvi.text = uviIndexValue(weather.current.uvi.roundToInt())
+            val windSpeedUnit = if(units == getString(R.string.metric)) "m/s" else "mi/h"
             binding.wind.text = weather.current.wind_speed.roundToInt().toString() + windSpeedUnit
-            binding.pressure.text = weather.current.pressure.toString() + "mbar"
+            binding.pressure.text = weather.current.pressure.toString() + " mbar"
             binding.humidity.text = weather.current.humidity.toString() + "%"
 
             binding.rvHours.adapter = HourAdapter(requireContext(), weather)
@@ -129,7 +134,7 @@ class DayWeatherFragment : Fragment() {
         )
     }
 
-    fun isLocationEnabled(): Boolean {
+    private fun isLocationEnabled(): Boolean {
         var locationManager =
             requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
@@ -144,24 +149,22 @@ class DayWeatherFragment : Fragment() {
     ) {
         if (requestCode == PERMISSION_ID) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Log.d(TAG, "You have the permission")
-                getLastLocation()
+                getLastLocationAndData()
             }
         }
     }
 
     private fun getCityName(lat: Double, long: Double): String {
-        var cityName: String
+        var cityName = ""
         //var countryName: String
         var geoCoder = Geocoder(activity, Locale.getDefault())
         var address = geoCoder.getFromLocation(lat, long, 3)
-
         cityName = address.get(0).locality
         //countryName = address.get(0).countryName
         return cityName
     }
 
-    private fun getLastLocation() {
+    private fun getLastLocationAndData() {
         if (isLocationEnabled()) {
             if (checkSelfPermission(
                     requireContext(),
@@ -173,7 +176,7 @@ class DayWeatherFragment : Fragment() {
             ) {
                 Toast.makeText(
                     context,
-                    "In order to get the city, you need to enable location and give the permissions to access device location",
+                    getString(R.string.permission_location),
                     Toast.LENGTH_LONG
                 ).show()
                 return
@@ -181,31 +184,37 @@ class DayWeatherFragment : Fragment() {
             fusedLocationProviderClient.lastLocation.addOnCompleteListener { task ->
                 var location: Location? = task.result
                 if (location == null) {
-                    NewLocationData()
+                    newLocationData()
                 } else {
-                    (activity as AppCompatActivity?)?.supportActionBar?.setTitle(getCityName(location.latitude, location.longitude))
-                    lat = location.latitude
-                    long = location.longitude
-                    units = getSettings(requireActivity()) ?: "metric"
-                    if(!isNetworkAvailable(requireContext())) {
-                        Toast.makeText(context, "No connection to internet", Toast.LENGTH_SHORT).show()
+                    val cityName = getCityName(location.latitude, location.longitude)
+                    if(cityName == "") {
+                        Toast.makeText(context, getString(R.string.location_error), Toast.LENGTH_SHORT).show()
                     } else {
-                        model.getWeather(lat, long, units, Locale.getDefault().language)!!
-                            .observe(viewLifecycleOwner,
-                                { serviceWeather ->
-                                    loadWeatherData(serviceWeather)
-                                    serviceWeather?.let { model.setWeeklyWeather(it.daily) }
-                                })
+                        (activity as AppCompatActivity?)?.supportActionBar?.setTitle(cityName)
+                        lat = location.latitude
+                        long = location.longitude
+                        units = getSettings(requireActivity()) ?: getString(R.string.metric)
+                        if (!isNetworkAvailable(requireContext())) {
+                            Toast.makeText(context, getString(R.string.no_internet), Toast.LENGTH_SHORT)
+                                .show()
+                        } else {
+                            model.getWeather(lat, long, units, Locale.getDefault().language)!!
+                                .observe(viewLifecycleOwner,
+                                    { serviceWeather ->
+                                        loadWeatherData(serviceWeather)
+                                        serviceWeather?.let { model.setWeeklyWeather(it.daily) }
+                                    })
+                        }
                     }
                 }
             }
         } else {
-            Toast.makeText(context, "Please Turn on Your device Location", Toast.LENGTH_SHORT)
+            Toast.makeText(context, getString(R.string.ask_location_enabled), Toast.LENGTH_SHORT)
                 .show()
         }
     }
 
-    private fun NewLocationData() {
+    private fun newLocationData() {
         var locationRequest = LocationRequest()
         locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         locationRequest.interval = 0
@@ -223,7 +232,7 @@ class DayWeatherFragment : Fragment() {
         ) {
             Toast.makeText(
                 context,
-                "In order to get the city, you need to enable location and give the permissions to access device location",
+                getString(R.string.ask_permission_location),
                 Toast.LENGTH_LONG
             )
                 .show()
@@ -246,30 +255,25 @@ class DayWeatherFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.miRefresh -> {
-                model.getWeather(lat, long, units, Locale.getDefault().language)!!
-                    .observe(viewLifecycleOwner,
-                        { serviceWeather ->
-                            loadWeatherData(serviceWeather)
-                            serviceWeather?.let { model.setWeeklyWeather(it.daily) }
-                        })
+                getLastLocationAndData()
             }
             R.id.miSettings -> {
                 val dialogBuilder = AlertDialog.Builder(requireContext())
                 val view = layoutInflater.inflate(R.layout.units, null)
                 val rg = view.findViewById<RadioGroup>(R.id.rgTemp)
-                when (getSettings(requireActivity()) ?: "metric") {
-                    "metric" -> rg.check(R.id.rbC)
-                    "imperial" -> rg.check(R.id.rbF)
+                when (getSettings(requireActivity()) ?: getString(R.string.metric)) {
+                    getString(R.string.metric) -> rg.check(R.id.rbC)
+                    getString(R.string.imperial) -> rg.check(R.id.rbF)
                 }
                 dialogBuilder.setView(view)
-                dialogBuilder.setTitle("Temperature Unit")
+                dialogBuilder.setTitle(getString(R.string.temperature_unit))
                 dialogBuilder.setPositiveButton(
                     getString(R.string.ok),
                     object : DialogInterface.OnClickListener {
                         override fun onClick(dialog: DialogInterface, id: Int) {
                              units = when (rg.checkedRadioButtonId) {
-                                R.id.rbC -> "metric"
-                                else -> "imperial"
+                                R.id.rbC -> getString(R.string.metric)
+                                else -> getString(R.string.imperial)
                             }
 
                             model.getWeather(lat, long, units, Locale.getDefault().language)!!
@@ -300,7 +304,7 @@ class DayWeatherFragment : Fragment() {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
 
-    fun isNetworkAvailable(context: Context?): Boolean {
+    private fun isNetworkAvailable(context: Context?): Boolean {
         if (context == null) return false
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

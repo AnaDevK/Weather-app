@@ -11,15 +11,20 @@ import com.app.weather.R
 import com.app.weather.model.CityWeather
 import kotlin.math.roundToInt
 
-class HourAdapter(private val context: Context, private val weather: CityWeather): RecyclerView.Adapter<HourAdapter.ViewHolder>() {
+class HourAdapter(private val context: Context, private val weather: CityWeather) :
+    RecyclerView.Adapter<HourAdapter.ViewHolder>() {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val weImage = itemView.findViewById<ImageView>(R.id.imgHourWeather)
         private val txtTemp = itemView.findViewById<TextView>(R.id.txtTempByHour)
         private val txtHour = itemView.findViewById<TextView>(R.id.txtHour)
+//        private val txtPrecipitation = itemView.findViewById<TextView>(R.id.txtPrecipitation)
+//        private val imgPrp = itemView.findViewById<ImageView>(R.id.imgPrp)
         fun bind(position: Int) {
-            txtHour.text = dateFormatHour(weather.hourly[position].dt)
-            txtTemp.text = weather.hourly[position].temp.roundToInt().toString()+ "°"
-            setImage(weImage, weather.hourly[position].weather[0].icon)
+            txtHour.text = dateFormatHour(weather.hourly[position + 1].dt)
+            txtTemp.text = weather.hourly[position + 1].temp.roundToInt().toString() + "°"
+            setImage(weImage, weather.hourly[position + 1].weather[0].icon)
+//            val precip = weather.hourly[position].pop.roundToInt() * 10
+//            txtPrecipitation.text = precip.toString() + "%"
         }
     }
 
@@ -32,5 +37,5 @@ class HourAdapter(private val context: Context, private val weather: CityWeather
         holder.bind(position)
     }
 
-    override fun getItemCount() = 48
-    }
+    override fun getItemCount() = 24
+}

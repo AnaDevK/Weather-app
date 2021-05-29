@@ -24,10 +24,10 @@ class DayAdapter(private val context: Context, private val weather: List<Daily>)
         private val txtTempDay = itemView.findViewById<TextView>(R.id.txtTempDay)
 
              fun bind(position: Int) {
-                 txtDay.text = dateFormatDay(weather[position].dt)
-                 txtTempDay.text = weather[position].temp.day.roundToInt().toString()+ "°"
-                 txtDescription.text = weather[position].weather[0].description
-                 setImage(imgDay, weather[position].weather[0].icon)
+                 txtDay.text = dateFormatDay(weather[position + 1].dt)
+                 txtTempDay.text = weather[position + 1].temp.day.roundToInt().toString()+ "°"
+                 txtDescription.text = weather[position + 1].weather[0].description
+                 setImage(imgDay, weather[position + 1].weather[0].icon)
             }
         }
 

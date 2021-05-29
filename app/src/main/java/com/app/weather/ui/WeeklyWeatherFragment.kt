@@ -17,11 +17,11 @@ class WeeklyWeatherFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayShowTitleEnabled(true)
         (activity as AppCompatActivity?)?.supportActionBar?.setDisplayShowHomeEnabled(false)
-        (activity as AppCompatActivity?)?.supportActionBar?.setTitle("Next 7 days")
+        (activity as AppCompatActivity?)?.supportActionBar?.setTitle(getString(R.string.next_seven_days))
         setHasOptionsMenu(true)
         binding = FragmentWeekWeatherBinding.inflate(inflater, container, false)
         return binding.root

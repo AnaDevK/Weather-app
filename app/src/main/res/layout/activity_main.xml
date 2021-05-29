@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_bg"
-    tools:context="com.app.weather.ui.MainActivity">
+    tools:context="com.app.weather.ui.MainActivity"
+    android:baselineAligned="false">
 
     <fragment
         android:id="@+id/navFragment"

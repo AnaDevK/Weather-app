@@ -3,12 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="50dp"
     tools:context="com.app.weather.ui.WeeklyWeatherFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDays"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"></androidx.recyclerview.widget.RecyclerView>
+        android:orientation="vertical"/>
 </RelativeLayout>

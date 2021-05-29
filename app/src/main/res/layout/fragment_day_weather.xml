@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp"
+    android:layout_height="match_parent"
     tools:context="com.app.weather.ui.DayWeatherFragment">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
+        android:padding="10dp"
         android:visibility="visible">
 
         <LinearLayout
+            android:id="@+id/llCenter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="70dp"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/llBottom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:orientation="horizontal"/>
-
+                android:orientation="horizontal" />
 
             <ImageView
                 android:id="@+id/imageStatus"
@@ -35,7 +38,8 @@
                 android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:paddingTop="20dp"
-                android:src="@drawable/ic_sunny"></ImageView>
+                android:contentDescription="@string/image_weather_condition"
+                android:src="@drawable/ic_sunny"/>
 
             <TextView
                 android:id="@+id/status"
@@ -43,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="18sp"
-                tools:text="Clear Sky"></TextView>
+                tools:text="Clear Sky"/>
 
             <TextView
                 android:id="@+id/temp"
@@ -52,28 +56,33 @@
                 android:layout_gravity="center"
                 android:fontFamily="sans-serif-thin"
                 android:textSize="90sp"
-                tools:text="24°C"></TextView>
+                tools:text="24°C"/>
 
             <TextView
                 android:id="@+id/feelsLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Feels like:"
-                android:textSize="16sp"></TextView>
+                android:text="@string/feels_like"
+                android:textSize="16sp"/>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llBottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/llCenter"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvHours"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:paddingBottom="5dp"></androidx.recyclerview.widget.RecyclerView>
+                android:paddingBottom="5dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -93,29 +102,30 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/ic_sunrise"></ImageView>
+                        android:contentDescription="@string/image_sunrise"
+                        android:src="@drawable/ic_sunrise"/>
 
                     <Space
                         android:layout_width="5dp"
-                        android:layout_height="wrap_content"></Space>
+                        android:layout_height="wrap_content"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sunrise"
-                        android:textSize="12sp"></TextView>
+                        android:text="@string/sunrise"
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/sunrise"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        tools:text="06:30"></TextView>
+                        tools:text="06:30"/>
                 </LinearLayout>
 
                 <Space
                     android:layout_width="10dp"
-                    android:layout_height="wrap_content"></Space>
+                    android:layout_height="wrap_content"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -129,29 +139,30 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/ic_sunset"></ImageView>
+                        android:contentDescription="@string/image_sunset"
+                        android:src="@drawable/ic_sunset"/>
 
                     <Space
                         android:layout_width="5dp"
-                        android:layout_height="wrap_content"></Space>
+                        android:layout_height="wrap_content"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sunset"
-                        android:textSize="12sp"></TextView>
+                        android:text="@string/sunset"
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/sunset"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        tools:text="17:30"></TextView>
+                        tools:text="17:30"/>
                 </LinearLayout>
 
                 <Space
                     android:layout_width="10dp"
-                    android:layout_height="wrap_content"></Space>
+                    android:layout_height="wrap_content"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -165,30 +176,31 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/ic_uvi"></ImageView>
+                        android:contentDescription="@string/image_uvi"
+                        android:src="@drawable/ic_uvi"/>
 
                     <Space
                         android:layout_width="5dp"
-                        android:layout_height="wrap_content"></Space>
+                        android:layout_height="wrap_content"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="UVI"
-                        android:textSize="12sp"></TextView>
+                        android:text="@string/uvi"
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/uvi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        tools:text="51%"></TextView>
+                        tools:text="51%"/>
                 </LinearLayout>
             </LinearLayout>
 
             <Space
                 android:layout_width="wrap_content"
-                android:layout_height="10dp"></Space>
+                android:layout_height="10dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -208,29 +220,30 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/ic_wind"></ImageView>
+                        android:contentDescription="@string/image_wind"
+                        android:src="@drawable/ic_wind"/>
 
                     <Space
                         android:layout_width="5dp"
-                        android:layout_height="wrap_content"></Space>
+                        android:layout_height="wrap_content"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Wind"
-                        android:textSize="12sp"></TextView>
+                        android:text="@string/wind"
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/wind"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        tools:text="5km/h"></TextView>
+                        tools:text="5km/h"/>
                 </LinearLayout>
 
                 <Space
                     android:layout_width="10dp"
-                    android:layout_height="wrap_content"></Space>
+                    android:layout_height="wrap_content"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -244,29 +257,30 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/ic_precipitation"></ImageView>
+                        android:contentDescription="@string/image_humidity"
+                        android:src="@drawable/ic_humidity"/>
 
                     <Space
                         android:layout_width="5dp"
-                        android:layout_height="wrap_content"></Space>
+                        android:layout_height="wrap_content"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pressure"
-                        android:textSize="12sp"></TextView>
+                        android:text="@string/pressure"
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/pressure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="14sp"
-                        tools:text="1030mbar"></TextView>
+                        tools:text="50mbar"/>
                 </LinearLayout>
 
                 <Space
                     android:layout_width="10dp"
-                    android:layout_height="wrap_content"></Space>
+                    android:layout_height="wrap_content"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -280,35 +294,38 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/ic_humidity"></ImageView>
+                        android:contentDescription="@string/image_rain"
+                        android:src="@drawable/ic_rain"/>
 
                     <Space
                         android:layout_width="5dp"
-                        android:layout_height="wrap_content"></Space>
+                        android:layout_height="wrap_content"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Humidity"
-                        android:textSize="12sp"></TextView>
+                        android:text="@string/humidity"
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:id="@+id/humidity"
                         android:layout_width="wrap_content"
                         android:layout_height="17dp"
                         android:textSize="14sp"
-                        tools:text="90%"></TextView>
+                        tools:text="90%"/>
 
                 </LinearLayout>
             </LinearLayout>
+
             <Space
                 android:layout_width="wrap_content"
-                android:layout_height="10dp"></Space>
+                android:layout_height="10dp"/>
+
             <TextView
                 android:id="@+id/updatedAt"
-                android:textSize="12sp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></TextView>
+                android:layout_height="wrap_content"
+                android:textSize="12sp"/>
         </LinearLayout>
-    </RelativeLayout>
-</RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

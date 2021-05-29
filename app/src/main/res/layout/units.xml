@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rgTemp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <RadioGroup
-        android:id="@+id/rgTemp"
+    <RadioButton
+        android:id="@+id/rbC"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="@string/celsius" />
 
-        <RadioButton
-            android:id="@+id/rbC"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Celsius (°C)" />
-
-        <RadioButton
-            android:id="@+id/rbF"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Fahrenheit(°F)" />
-    </RadioGroup>
-</LinearLayout>
+    <RadioButton
+        android:id="@+id/rbF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fahrenheit" />
+</RadioGroup>

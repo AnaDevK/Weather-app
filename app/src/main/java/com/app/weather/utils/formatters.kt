@@ -41,7 +41,7 @@ fun setImage(imageStatus: ImageView, status: String) {
 
 fun saveSettings(activity: Activity, temp: String) {
     //read from xml
-    val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return
+    val sharedPref = activity.getPreferences(Context.MODE_PRIVATE) ?: return
     with (sharedPref.edit()) {
         putString("units", temp)
         apply()
@@ -49,7 +49,26 @@ fun saveSettings(activity: Activity, temp: String) {
 }
 
 fun getSettings(activity: Activity): String? {
-    val sharedPref = activity?.getPreferences(Context.MODE_PRIVATE) ?: return null
+    val sharedPref = activity.getPreferences(Context.MODE_PRIVATE) ?: return null
     val defaultValue = "metric"
     return sharedPref.getString("units", defaultValue)
+}
+
+fun uviIndexValue(number: Int): String {
+    var valueUvi: String
+    valueUvi = when (number) {
+        0 -> "0 - Low"
+        1 -> "1 - Low"
+        2 -> "2 - Low"
+        3 -> "3 - Moderate"
+        4 -> "4 - Moderate"
+        5 -> "5 - Moderate"
+        6 -> "6 - High"
+        7 -> "7 - High"
+        8 -> "8 - Very High"
+        9 -> "9 - Very High"
+        10 -> "10 - Very High"
+        else -> "Not available"
+    }
+    return valueUvi
 }
