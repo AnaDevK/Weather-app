@@ -1,6 +1,6 @@
-package com.app.weather.network
+package com.app.tempatmyplace.network
 
-import com.app.weather.model.CityWeather
+import com.app.tempatmyplace.model.CityWeather
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

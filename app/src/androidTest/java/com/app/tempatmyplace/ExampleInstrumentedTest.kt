@@ -1,4 +1,4 @@
-package com.app.weather
+package com.app.tempatmyplace
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

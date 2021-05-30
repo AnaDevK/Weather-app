@@ -1,9 +1,9 @@
-package com.app.weather.repository
+package com.app.tempatmyplace.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.app.weather.model.CityWeather
-import com.app.weather.network.WeatherApi
+import com.app.tempatmyplace.model.CityWeather
+import com.app.tempatmyplace.network.WeatherApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch

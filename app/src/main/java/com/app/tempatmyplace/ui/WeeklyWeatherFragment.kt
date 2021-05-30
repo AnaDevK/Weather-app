@@ -1,4 +1,4 @@
-package com.app.weather.ui
+package com.app.tempatmyplace.ui
 
 import android.os.Bundle
 import android.view.*
@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.app.weather.R
-import com.app.weather.databinding.FragmentWeekWeatherBinding
-import com.app.weather.utils.DayAdapter
+import com.app.tempatmyplace.R
+import com.app.tempatmyplace.databinding.FragmentWeekWeatherBinding
+import com.app.tempatmyplace.utils.DayAdapter
 
 class WeeklyWeatherFragment : Fragment() {
     private lateinit var model: SharedViewModel

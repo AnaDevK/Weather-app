@@ -1,10 +1,10 @@
-package com.app.weather.ui
+package com.app.tempatmyplace.ui
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import androidx.appcompat.app.AppCompatActivity
-import com.app.weather.R
+import com.app.tempatmyplace.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

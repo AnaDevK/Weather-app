@@ -1,4 +1,4 @@
-package com.app.weather.utils
+package com.app.tempatmyplace.utils
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.app.weather.R
-import com.app.weather.model.Daily
+import com.app.tempatmyplace.R
+import com.app.tempatmyplace.model.Daily
 import kotlin.math.roundToInt
 
 class DayAdapter(private val context: Context, private val weather: List<Daily>): RecyclerView.Adapter<DayAdapter.ViewHolder>()  {

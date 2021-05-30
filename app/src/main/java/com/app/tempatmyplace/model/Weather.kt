@@ -1,4 +1,4 @@
-package com.app.weather.model
+package com.app.tempatmyplace.model
 
 data class Weather(
     val description: String,

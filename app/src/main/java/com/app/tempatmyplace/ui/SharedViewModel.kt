@@ -1,11 +1,11 @@
-package com.app.weather.ui
+package com.app.tempatmyplace.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.app.weather.model.CityWeather
-import com.app.weather.model.Daily
-import com.app.weather.repository.WeatherRepository
+import com.app.tempatmyplace.model.CityWeather
+import com.app.tempatmyplace.model.Daily
+import com.app.tempatmyplace.repository.WeatherRepository
 
 class SharedViewModel : ViewModel() {
     private var currentWeatherLiveData: MutableLiveData<CityWeather?>? = null

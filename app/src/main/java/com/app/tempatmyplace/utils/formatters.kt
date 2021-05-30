@@ -1,10 +1,10 @@
-package com.app.weather.utils
+package com.app.tempatmyplace.utils
 
 import android.app.Activity
 import android.content.Context
 import android.widget.ImageView
 import androidx.core.net.toUri
-import com.app.weather.R
+import com.app.tempatmyplace.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import java.text.SimpleDateFormat

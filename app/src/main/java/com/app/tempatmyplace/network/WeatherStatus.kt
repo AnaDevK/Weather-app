@@ -1,4 +1,4 @@
-package com.app.weather.network
+package com.app.tempatmyplace.network
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -1,4 +1,4 @@
-package com.app.weather.ui
+package com.app.tempatmyplace.ui
 
 import android.Manifest
 import android.content.Context
@@ -29,10 +29,10 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.app.weather.R
-import com.app.weather.databinding.FragmentDayWeatherBinding
-import com.app.weather.model.CityWeather
-import com.app.weather.utils.*
+import com.app.tempatmyplace.R
+import com.app.tempatmyplace.databinding.FragmentDayWeatherBinding
+import com.app.tempatmyplace.model.CityWeather
+import com.app.tempatmyplace.utils.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.location.*
